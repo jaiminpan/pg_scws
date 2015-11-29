@@ -1,0 +1,9 @@
+contrib/pg_scws/libscws/CHANGELOG
+
+version of contrib/pg_scws/libscws/jieba direct from
+https://github.com/hightman/scws/libscws
+=======================
+
+commit 964d7f8c13722c6c35d6a8be1e48e58e0ede4325
+Author: hightman <hightman@twomice.net>
+Date:   Wed Aug 5 00:41:35 2015 +0800

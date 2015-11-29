@@ -1,0 +1,11 @@
+contrib/pg_scws/libscws/README
+
+libscws
+=======================
+
+This module uses the scws project,
+https://github.com/hightman/scws/
+which are released by them under a BSD license.
+
+The files under contrib/pg_scws/libscws/ are taken directly from
+their distribution

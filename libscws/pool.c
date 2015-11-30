@@ -27,7 +27,7 @@ static void _pool_append_clean(pool_t p, void *obj)
 
 static void _pool_heap_new(pool_t p)
 {
-	if (p->heap != NULL)	
+	if (p->heap != NULL)
 		p->dirty += (p->heap->size - p->heap->used);
 	
 	p->heap = (struct pheap *) malloc(POOL_BLK_SIZ);
@@ -39,8 +39,8 @@ static void _pool_heap_new(pool_t p)
 }
 
 
-pool_t pool_new()
-{	
+pool_t pool_new(void)
+{
 	pool_t p;
 
 	p = (pool_t) malloc(sizeof(pool_st));
@@ -111,7 +111,7 @@ void *pmalloc_z(pool_t p, int size)
 	return pmalloc_x(p, size, 0);
 }
 
-char *pstrdup(pool_t p, const char *src)
+char *pstrdup_s(pool_t p, const char *src)
 {
 	char *dst;
 	int len;
@@ -125,7 +125,7 @@ char *pstrdup(pool_t p, const char *src)
 	return dst;
 }
 
-char *pstrndup(pool_t p, const char *src, int len)
+char *pstrndup_s(pool_t p, const char *src, int len)
 {
 	char *dst;
 

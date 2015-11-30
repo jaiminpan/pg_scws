@@ -84,7 +84,7 @@ struct scws_st
 };
 
 /* api: init the scws handler */
-scws_t scws_new();
+scws_t scws_new(void);
 void scws_free(scws_t s);
 /* fork instance for multi-threaded usage, but they shared the dict/rules */
 scws_t scws_fork(scws_t s);

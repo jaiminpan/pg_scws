@@ -107,7 +107,7 @@ void xtree_nput(xtree_t xt, void *value, int vlen, const char *key, int len)
 	if (value != NULL)
 	{	
 		*pnode = node = (node_t) pmalloc(xt->p, sizeof(node_st));
-		node->key = pstrndup(xt->p, key, len);
+		node->key = pstrndup_s(xt->p, key, len);
 		node->value = value;
 		node->vlen = vlen;
 		node->left = NULL;

@@ -322,7 +322,7 @@ void xdb_nput(xdb_t x, void *value, unsigned int vlen, const char *key, int len)
 		unsigned char buf[512];
 		xptr_st pnew;
 
-		pnew.off = x->fsize;		
+		pnew.off = x->fsize;
 		memset(buf, 0, sizeof(buf));
 		pnew.len = rec.me.len - rec.value.len;
 		if (pnew.len > 0)
@@ -332,7 +332,7 @@ void xdb_nput(xdb_t x, void *value, unsigned int vlen, const char *key, int len)
 		else
 		{
 			buf[16] = len;	// key len
-			strncpy(buf + 17, key, len);
+			strncpy((char *)buf + 17, key, len);
 			pnew.len = 17 + len;
 		}
 		lseek(x->fd, pnew.off, SEEK_SET);
@@ -501,7 +501,7 @@ static void _xdb_load_nodes(xdb_t x, xptr_t ptr, xcmper_st *nodes, int *count)
 	i = *count;
 	nodes[i].ptr.off = ptr->off;
 	nodes[i].ptr.len = ptr->len;
-	nodes[i].key = (char *) _mem_ndup(buf + 17, buf[16]);
+	nodes[i].key = (char *) _mem_ndup((char *)buf + 17, buf[16]);
 	*count = i+1;
 
 	/* left & right */
@@ -591,7 +591,7 @@ static void _xdb_to_xtree_node(xdb_t x, xtree_t xt, xptr_t ptr)
 		return;
 
 	buf = (unsigned char *) malloc(ptr->len + 1);
-	_xdb_read_data(x, buf, ptr->off, ptr->len);
+	_xdb_read_data(x, (char *)buf, ptr->off, ptr->len);
 
 	/* save the key & value -> xtree */
 	voff = buf[16] + 17;
@@ -601,7 +601,7 @@ static void _xdb_to_xtree_node(xdb_t x, xtree_t xt, xptr_t ptr)
 		return;
 	value = pmalloc(xt->p, ptr->len - voff);
 	memcpy(value, buf + voff, ptr->len - voff);
-	xtree_nput(xt, value, ptr->len - voff, buf + 17, buf[16]);
+	xtree_nput(xt, value, ptr->len - voff, (char *)buf + 17, buf[16]);
 
 	/* left & right */
 	memcpy(ptr, buf, sizeof(xptr_st));

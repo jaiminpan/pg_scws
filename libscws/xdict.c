@@ -198,7 +198,7 @@ static xdict_t _xdict_open_txt(const char *fpath, int mode, unsigned char *ml)
 				if (!(part = _strtok_r(NULL, delim, &last))) break;
 				word.idf = (float) atof(part);
 
-				if (part = _strtok_r(NULL, delim, &last))
+				if ((part = _strtok_r(NULL, delim, &last)))
 				{
 					word.attr[0] = part[0];
 					if (part[1]) word.attr[1] = part[1];

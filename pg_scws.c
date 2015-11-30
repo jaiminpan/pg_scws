@@ -141,14 +141,14 @@ static scws_t pgscws_scws = NULL;
 static bool pgscws_dict_in_memory = false;
 static int pgscws_load_dict_mem_mode = 0;
 
-static char * pgscws_charset = NULL;
-static char * pgscws_rules = NULL;
-static char * pgscws_extra_dicts = NULL;
+static char * pgscws_charset = "utf8";
+static char * pgscws_rules = "rules.utf8.ini";
+static char * pgscws_extra_dicts = "dict.utf8.xdb";
 
 static bool pgscws_punctuation_ignore = false;
 static bool pgscws_seg_with_duality = false;
-static char * pgscws_multi_mode_string = NULL;
-static int pgscws_multi_mode = 0;
+static char * pgscws_multi_mode_string = "none";
+static int pgscws_multi_mode = SCWS_MULTI_NONE;
 
 static void pgscws_assign_dict_in_memory(bool newval, void *extra);
 static bool pgscws_check_charset(char **newval, void **extra, GucSource source);
@@ -246,12 +246,13 @@ _PG_init(void)
 							 NULL);
 	DefineCustomStringVariable("scws.multi_mode",
 							   "set multi mode",
+							   "\"none\" for none\n"
 							   "\"short\" for prefer short words\n"
 							   "\"duality\" for prefer duality\n"
 							   "\"zmain\" prefer most important element"
 							   "\"zall\" prefer prefer all element",
 							   &pgscws_multi_mode_string,
-							   NULL,
+							   "none",
 							   PGC_USERSET,
 							   0,
 							   pgscws_check_multi_mode,
@@ -580,10 +581,14 @@ pgscws_check_multi_mode(char **newval, void **extra, GucSource source)
 	char	   *rawstring;
 	List	   *elemlist;
 	ListCell   *l;
-	int			new_multi_mode = 0;
+	int			new_multi_mode = SCWS_MULTI_NONE;
 	int		   *myextra;
 
-	if (*newval)
+	if (strcmp(*newval, "none") == 0)
+	{
+		new_multi_mode = SCWS_MULTI_NONE;
+	}
+	else if (*newval)
 	{
 		/* Need a modifiable copy of string */
 		rawstring = pstrdup(*newval);

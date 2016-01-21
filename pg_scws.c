@@ -364,7 +364,7 @@ pgscws_lextype(PG_FUNCTION_ARGS)
 
 	for (i = 1; i <= LASTNUM; i++)
 	{
-		descr[i - 1].lexid = i;
+		descr[i - 1].lexid = tok_alias[i][0];
 		descr[i - 1].alias = pstrdup(tok_alias[i]);
 		descr[i - 1].descr = pstrdup(lex_descr[i]);
 	}
